@@ -109,5 +109,5 @@ export const deleteUser = async (userId) => {
   const colRef = collection(db, COLLECTION_NAME)
   const docRef = doc(colRef, userId)
   await deleteDoc(docRef)
-  return { id: userId, message: 'User deleted successfully' }
+  return { id: userId, deleted: true }
 }
