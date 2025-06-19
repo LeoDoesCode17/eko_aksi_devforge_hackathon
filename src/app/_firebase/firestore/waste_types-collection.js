@@ -11,11 +11,12 @@ WasteType :
 */
 
 const COLLECTION_NAME = 'waste_types'
-export const create = async (wasteTypeData) => {
+export const create = async (wasteTypeData, pricePerKg) => {
   const now = serverTimestamp()
   const colRef = collection(db, COLLECTION_NAME)
   const docRef = await addDoc(colRef, {
     ...wasteTypeData,
+    price_per_kg: pricePerKg,
     created_at: now,
     updated_at: now
   })
