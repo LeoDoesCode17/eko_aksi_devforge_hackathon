@@ -1,0 +1,19 @@
+For user business logic : 
+- list of request that has pending (not used) status
+- list of waste bank
+- get waste request by id
+- list of historical transaction of a user
+- get a historical transaction data of a user
+
+For admin business logic : 
+- get admin profile
+- validate request code that input by admin
+- get waste request by request code 
+- get detail of transaction by waste request id
+- list of historical transaction done by admin (sorting by admin id)
+- get detail of transaction done by admin
+
+For super admin : 
+- get admin data by nik
+- get list of historical transaction done by admin
+- get detail of transaction done
