@@ -4,14 +4,18 @@ import { db } from "../firebaseClient"
 const COLLECTION_NAME = 'users'
 /*
 User {
-  id (string uuid),
-  name (string),
-  email (string unique),
-  password(string), nik (unique),
-  profile_photos_path,
-  role (enum: 'user', 'admin', 'superadmin'), 
-  is_verified (boolean), 
-  timestamp
+- id (PK)
+- name
+- email
+- password
+- nik (Unique)
+- profile_photos_path
+- role (enum: 'user', 'admin', 'superadmin')
+- is_verified (boolean) (verification using email)
+- point (double)
+- created_at
+- updated_at
+
 }
 */
 
