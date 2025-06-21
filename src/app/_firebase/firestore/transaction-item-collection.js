@@ -7,8 +7,8 @@ TransactionItem
 - id (PK)
 - transaction_id (FK -> TRANSACTIONS.id)
 - waste_type_id (FK -> WASTE_TYPES.id)
-- weight_kg
-- subtotal_price
+- weight_kg (double)
+- subtotal_point (double)
 - created_at
 - updated_at
 */
