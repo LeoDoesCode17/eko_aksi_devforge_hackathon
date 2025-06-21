@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { login } from "@/app/_firebase/auth";
 
 export default function LoginModal({ open, onClose }) {
   const [email, setEmail] = useState("");
@@ -16,20 +17,10 @@ export default function LoginModal({ open, onClose }) {
       return;
     }
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        setErrMsg(data.message || "Login gagal.");
-        return;
-      }
-      // Jika sukses, reload atau close modal
-      window.location.reload();
+      await login(email, password);
+      window.location.href = "/users/customer-user";
     } catch (err) {
-      setErrMsg("Terjadi kesalahan server.");
+      setErrMsg(err.message || "Login gagal.");
     }
   };
 
