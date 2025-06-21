@@ -15,10 +15,10 @@ export function AuthProvider({ children }) {
       if (firebaseUser) {
         setUser(firebaseUser)
         try {
-          const userData = await getUserById(firebaseUser.id)
+          const userData = await getUserById(firebaseUser.uid)
           setRole(userData?.role || "guest")
         } catch (error) {
-          console.error(`Error when get user ID-${firebaseUser.id} with error: ${error}`)
+          console.error(`Error when get user ID-${firebaseUser.uid} with error: ${error}`)
         }
       }
     })

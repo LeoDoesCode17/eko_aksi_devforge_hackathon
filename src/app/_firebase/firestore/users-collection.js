@@ -1,4 +1,4 @@
-import { collection, serverTimestamp, updateDoc } from "firebase/firestore"
+import { collection, serverTimestamp, updateDoc, doc, getDoc } from "firebase/firestore"
 import { db } from "../firebaseClient"
 
 const COLLECTION_NAME = 'users'

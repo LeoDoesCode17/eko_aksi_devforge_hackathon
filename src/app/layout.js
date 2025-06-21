@@ -1,6 +1,5 @@
 import { Nunito } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 
 const nunito = Nunito({
@@ -18,10 +17,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={nunito.className}>
-        <AuthProvider>
-          <Navbar />
-          <main>{children}</main>
-        </AuthProvider>
+        <Navbar />
+        <main>{children}</main>
       </body>
     </html>
   );
