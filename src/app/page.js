@@ -8,7 +8,7 @@ export default function Home() {
       <section className="w-1/2 flex flex-col justify-center px-20 py-16">
         <div className="mb-4">
         <span className="bg-[#FF9103] bg-opacity-20 text-[#f2eeea] px-3 py-1 rounded-full text-sm font-semibold">
-        🌱 GAYA HIDUP LESTARI
+        🌱 GREEN LIFESTYLE
           </span>
         </div>
         <h1 className="text-5xl font-bold mb-6 leading-tight">
