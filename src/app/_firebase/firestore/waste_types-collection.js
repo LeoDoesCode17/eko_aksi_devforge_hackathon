@@ -5,7 +5,7 @@ WasteType :
 - id (PK)
 - name
 - category
-- price_per_kg
+- point_per_kg (double)
 - created_at
 - updated_at
 */
