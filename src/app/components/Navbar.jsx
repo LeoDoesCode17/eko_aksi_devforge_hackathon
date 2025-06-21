@@ -47,12 +47,18 @@ export default function Navbar() {
       <div className="relative">
         {role === "guest" ? (
           <div className="space-x-4">
-            <button className="bg-[#D6ED9F] text-sm font-semibold text-black px-4 py-2 rounded hover:bg-[#33562F] transition">
+            <Link
+              href="/auth/login"
+              className="bg-[#D6ED9F] text-sm font-semibold text-black px-4 py-2 rounded hover:bg-[#33562F] transition"
+            >
               Masuk
-            </button>
-            <button className="bg-[#3A6238] text-sm font-semibold text-white px-4 py-2 rounded hover:bg-[#33562F] transition">
+            </Link>
+            <Link
+              href="/auth/register"
+              className="bg-[#3A6238] text-sm font-semibold text-white px-4 py-2 rounded hover:bg-[#33562F] transition"
+            >
               Daftar
-            </button>
+            </Link>
           </div>
         ) : (
           <div>
