@@ -109,17 +109,18 @@ export const deleteWasteRequest = async (requestId) => {
 }
 
 /**
- * Gets all pending waste requests for a specific user.
+ * Gets all waste requests for a specific user with certain status.
  *
  * @param {string} userId - ID of the user.
+ * @param {string} status - status of the request.
  * @returns {Promise<Array<Object>>} - Array of pending requests.
  */
-export const getPendingRequest = async (userId) => {
+export const getWasteRequestsByStatus = async (userId, status) => {
   await getUserById(userId);
   const query = query(
     colRef,
     where("user_id", "==", userId),
-    where("status", "==", "pending")
+    where("status", "==", status)
   )
   const querySnapshot = await getDocs(query);
   return querySnapshot.docs.map(doc => ({
