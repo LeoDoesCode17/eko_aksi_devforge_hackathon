@@ -36,7 +36,7 @@ export default function LoginModal({ open, onClose }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60">
       <div className="relative">
         <button
           onClick={onClose}

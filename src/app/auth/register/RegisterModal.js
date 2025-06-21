@@ -47,7 +47,7 @@ export default function RegisterModal({ open, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/60">
       <div className="relative">
         <button
           onClick={onClose}
