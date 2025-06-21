@@ -5,7 +5,8 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
-  serverTimestamp
+  serverTimestamp,
+  getDocs
 } from "firebase/firestore"
 import { db } from "../firebaseClient"
 import { get as getUserById } from "./users-collection"
@@ -13,6 +14,17 @@ import { get as getWasteBankById } from "./waste_banks-collection"
 
 const COLLECTION_NAME = 'waste_requests'
 const colRef = collection(db, COLLECTION_NAME)
+
+/*
+WasteRequest:
+- id (PK string uuid)
+- user_id (FK -> USERS.id)
+- waste_bank_id (FK -> WASTE_BANKS.id)
+- request_code (Unique)
+- status (enum: 'pending', 'used', ‘canceled’)
+- created_at
+- updated_at
+*/
 
 /**
  * Creates a new waste request document in Firestore.
@@ -94,4 +106,24 @@ export const deleteWasteRequest = async (requestId) => {
   await deleteDoc(docRef)
 
   return { id: requestId, deleted: true }
+}
+
+/**
+ * Gets all pending waste requests for a specific user.
+ *
+ * @param {string} userId - ID of the user.
+ * @returns {Promise<Array<Object>>} - Array of pending requests.
+ */
+export const getPendingRequest = async (userId) => {
+  await getUserById(userId);
+  const query = query(
+    colRef,
+    where("user_id", "==", userId),
+    where("status", "==", "pending")
+  )
+  const querySnapshot = await getDocs(query);
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }))
 }
