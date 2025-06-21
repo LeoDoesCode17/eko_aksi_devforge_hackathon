@@ -6,7 +6,7 @@ Waste_Banks {
 - id (PK uuid string)
 - name (string)
 - address (string)
-- city (string)
+- subdistrict (string)
 - latitude (float)
 - longitude (float)
 - created_at (timestamp)
