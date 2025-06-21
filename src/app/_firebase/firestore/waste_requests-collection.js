@@ -11,6 +11,7 @@ import {
 import { db } from "../firebaseClient"
 import { get as getUserById } from "./users-collection"
 import { get as getWasteBankById } from "./waste_banks-collection"
+import { v4 as uuidv4 } from "uuid"
 
 const COLLECTION_NAME = 'waste_requests'
 const colRef = collection(db, COLLECTION_NAME)
@@ -45,7 +46,7 @@ export const create = async (userId, wasteBankId) => {
   const requestData = {
     user_id: userId,
     waste_bank_id: wasteBankId,
-    request_code: `REQ-${Date.now()}`,
+    request_code: uuidv4(),
     status: 'pending',
     created_at: now,
     updated_at: now
