@@ -4,12 +4,71 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from "react";
 
+function FAQAccordion() {
+  const [open, setOpen] = useState(0);
+  const faqs = [
+    {
+      q: "Apa itu EkoAksi?",
+      a: "EkoAksi adalah platform web interaktif yang membantu kamu memahami dan menerapkan prinsip 3R (Reduce, Reuse, Recycle) dalam kehidupan sehari-hari. Kami juga menyediakan informasi lokasi bank sampah dan panduan aksi lingkungan yang bisa kamu lakukan.",
+    },
+    {
+      q: "Apakah EkoAksi hanya untuk warga Makassar?",
+      a: "",
+    },
+    {
+      q: "Siapa saja yang bisa menggunakan EkoAksi?",
+      a: "",
+    },
+    {
+      q: "Bagaimana cara menggunakan fitur peta bank sampah?",
+      a: "",
+    },
+    {
+      q: "Apakah saya bisa berkontribusi di EkoAksi?",
+      a: "",
+    },
+  ];
+
+  return (
+    <div className="flex flex-col gap-3 w-full max-w-xl">
+      {faqs.map((item, idx) => (
+        <div key={idx} className="rounded-lg overflow-hidden">
+          <button
+            className={`w-full text-left px-6 py-4 font-semibold flex justify-between items-center transition text-white ${open === idx ? "rounded-b-none" : ""}`} style={{ backgroundColor: "#005A23" }}
+            onClick={() => setOpen(open === idx ? -1 : idx)}
+          >
+            <span>{item.q}</span>
+            <span className="text-2xl">{open === idx ? "−" : "+"}</span>
+          </button>
+          {open === idx && (
+            <div className="bg-white text-green-900 px-6 py-4 border-t" style={{ backgroundColor: "#005A23" }}>
+              {item.a || <span className="italic text-gray-500">Belum ada jawaban.</span>}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // Accordion 3R component
 function Modul3RAccordion() {
   const [openAccordion, setOpenAccordion] = useState("reduce");
   const handleAccordion = (panel) => {
     setOpenAccordion(openAccordion === panel ? null : panel);
   };
+
+    const AccordionContent = ({ show, children }) => (
+    <div
+      style={{
+        maxHeight: show ? 500 : 0,
+        overflow: "hidden",
+        transition: "max-height 0.5s cubic-bezier(0.4,0,0.2,1)",
+      }}
+    >
+      <div className="py-2">{children}</div>
+    </div>
+  );
 
   return (
     <div className="w-1/2 flex flex-col justify-center">
@@ -32,7 +91,7 @@ function Modul3RAccordion() {
             {openAccordion === "reduce" ? "−" : "+"}
           </span>
         </div>
-        {openAccordion === "reduce" && (
+        <AccordionContent show={openAccordion === "reduce"}>
           <div className="mt-2">
             <p className="text-gray-700 mb-3">
               Reduce berarti mengurangi penggunaan barang yang berpotensi menjadi sampah. Semakin sedikit sampah yang kita hasilkan, semakin sedikit juga beban bumi.
@@ -47,7 +106,7 @@ function Modul3RAccordion() {
               </ul>
             </div>
           </div>
-        )}
+        </AccordionContent>
       </div>
 
       {/* Reuse */}
@@ -61,7 +120,7 @@ function Modul3RAccordion() {
             {openAccordion === "reuse" ? "−" : "+"}
           </span>
         </div>
-        {openAccordion === "reuse" && (
+        <AccordionContent show={openAccordion === "reuse"}>
           <div className="mt-2">
             <p className="text-gray-700 mb-3">
               Reuse berarti menggunakan kembali barang-barang yang masih layak pakai untuk mengurangi sampah.
@@ -75,7 +134,7 @@ function Modul3RAccordion() {
               </ul>
             </div>
           </div>
-        )}
+        </AccordionContent>
       </div>
 
       {/* Recycle */}
@@ -89,7 +148,7 @@ function Modul3RAccordion() {
             {openAccordion === "recycle" ? "−" : "+"}
           </span>
         </div>
-        {openAccordion === "recycle" && (
+        <AccordionContent show={openAccordion === "recycle"}>
           <div className="mt-2">
             <p className="text-gray-700 mb-3">
               Recycle berarti mengolah kembali sampah menjadi barang baru yang bermanfaat.
@@ -102,7 +161,7 @@ function Modul3RAccordion() {
               </ul>
             </div>
           </div>
-        )}
+        </AccordionContent>
       </div>
     </div>
   );
@@ -129,8 +188,8 @@ export default function Home() {
             EkoAksi hadir sebagai platform interaktif untuk membangun kesadaran dan mengajak kamu terlibat langsung dalam gaya hidup ramah lingkungan
           </p>
           <Link
-            href="#edukasi"
-            className="bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-lg font-semibold transition mb-10 inline-flex items-center self-start"
+            href="/auth/login"
+            className="hover:bg-green-800 text-white px-4 py-2 rounded-lg font-semibold transition mb-10 inline-flex items-center self-start" style={{ backgroundColor: "#005A23" }}
           >
             Mulai Sekarang &rarr;
           </Link>
@@ -207,19 +266,21 @@ export default function Home() {
           <Modul3RAccordion />
           {/* Kanan: Gambar dan info */}
           <div className="w-1/2 flex flex-col items-center">
-            <div className="relative w-full h-[370px] rounded-[40px] overflow-hidden bg-green-700">
-              <Image
-                src="/images/modul_picture.png"
-                alt="Vertical garden"
-                fill
-                className="object-cover"
-                style={{ borderTopRightRadius: 80, borderBottomLeftRadius: 80 }}
-              />
-            </div>
-            <div className="bg-green-700 text-white rounded-lg p-5 mt-6 w-full">
-              <div className="font-bold mb-2">✱ Kenapa ini penting?</div>
-              <div className="text-sm">
-                Setiap barang yang kita beli, mempunyai jejak karbon. Dengan mengurangi konsumsi, kita juga mengurangi limbah dan polusi yang dihasilkan.
+            <div className="w-full overflow-hidden relative p-4" style={{ backgroundColor: "#005A23" }}>
+              <div className="relative w-full h-[340px] overflow-hidden"  style={{ borderTopRightRadius: 40, borderTopLeftRadius: 0, borderBottomRightRadius: 0, borderBottomLeftRadius: 0, background: "#166534" }}>
+                <Image
+                  src="/images/modul_picture.png"
+                  alt="Vertical garden"
+                  fill
+                  className="object-cover"
+                  style={{ borderTopRightRadius: 40, borderTopLeftRadius: 0 }}
+                />
+              </div>
+              <div className="p-6 text-white">
+                <div className="font-bold mb-2">✱ Kenapa ini penting?</div>
+                <div className="text-sm">
+                  Setiap barang yang kita beli, mempunyai jejak karbon. Dengan mengurangi konsumsi, kita juga mengurangi limbah dan polusi yang dihasilkan.
+                </div>
               </div>
             </div>
           </div>
@@ -228,3 +289,45 @@ export default function Home() {
     </main>
   );
 }
+
+// ...existing code...
+export function map () {
+  return (
+    <section className="w-full bg-[#FFF7E2] py-16 flex justify-center">
+        <div className="max-w-6xl w-full flex flex-col items-center">
+          <div className="w-full flex flex-col md:flex-row md:items-start mb-8">
+            <div className="flex-1">
+              <span className="bg-orange-200 text-white px-3 py-1 rounded-full text-sm font-semibold mb-4 inline-block">
+                🟧 BANK SAMPAH
+              </span>
+              <h2 className="text-2xl md:text-3xl font-bold mb-3">
+                Temukan Lokasi<br />Bank Sampah di Sekitarmu
+              </h2>
+            </div>
+            <div className="flex-1">
+              <p className="text-gray-700 mt-4 md:mt-0">
+                Kenali lebih dekat tempat-tempat yang bisa membantumu mengelola sampah dengan lebih bijak. Melalui peta di bawah, kamu bisa melihat persebaran bank sampah lengkap dengan nama, alamat, dan kecamatan masing-masing.
+              </p>
+            </div>
+          </div>
+          <div className="w-full flex justify-center">
+            <div className="border-[8px] border-green-700 w-full max-w-4xl bg-white">
+            <iframe
+                  src="https://www.google.com/maps/embed?pb=..." // ganti dengan link embed Google Maps Anda
+                  width="100%"
+                  height="400"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-[400px]"
+                ></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+  )
+  
+}
+
+      
