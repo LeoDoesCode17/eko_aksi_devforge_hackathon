@@ -7,11 +7,11 @@ For user business logic :
 
 For admin business logic : 
 - get admin profile (done)
-- validate request code that input by admin
-- get waste request by request code 
-- get detail of transaction by waste request id
-- list of historical transaction done by admin (sorting by admin id)
-- get detail of transaction done by admin
+- validate request code that input by admin (done)
+- get waste request by request code (done)
+- get detail of transaction by waste request id (done)
+- list of historical transaction done by admin (sorting by admin id) (done)
+- get detail of transaction done by admin (done)
 
 For super admin : 
 - get admin data by nik

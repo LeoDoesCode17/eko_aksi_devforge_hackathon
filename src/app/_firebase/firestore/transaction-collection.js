@@ -7,7 +7,7 @@ Transaction
 - id (PK)
 - admin_id (FK -> USERS.id) // this is the admin that users interact with
 - request_id (FK -> WASTE_REQUESTS.id unique)
-- total_price
+- total_point
 - transaction_time
 - status (enum: ‘done’, ‘pending’, ‘canceled’)
 - created_at

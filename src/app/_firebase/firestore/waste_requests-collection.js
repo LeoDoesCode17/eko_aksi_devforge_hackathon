@@ -11,6 +11,7 @@ import {
 import { db } from "../firebaseClient"
 import { get as getUserById } from "./users-collection"
 import { get as getWasteBankById } from "./waste_banks-collection"
+import { v4 as uuidv4 } from "uuid"
 
 const COLLECTION_NAME = 'waste_requests'
 const colRef = collection(db, COLLECTION_NAME)
@@ -45,7 +46,7 @@ export const create = async (userId, wasteBankId) => {
   const requestData = {
     user_id: userId,
     waste_bank_id: wasteBankId,
-    request_code: `REQ-${Date.now()}`,
+    request_code: uuidv4(),
     status: 'pending',
     created_at: now,
     updated_at: now
@@ -127,4 +128,31 @@ export const getWasteRequestsByStatus = async (userId, status) => {
     id: doc.id,
     ...doc.data()
   }))
+}
+
+/**
+ * Retrieves a single waste request document from Firestore using its unique request code.
+ *
+ * @async
+ * @function getWasteRequestByRequestCode
+ * @param {string} requestCode - The unique request code associated with the waste request.
+ * @returns {Promise<Object>} - A Promise that resolves to the waste request document,
+ *                               including its Firestore `id` and all associated fields.
+ * @throws {Error} - If no waste request is found with the given request code.
+ *
+ * @example
+ * const request = await getWasteRequestByRequestCode("uuidv4");
+ * console.log(request.status); // 'pending', 'used', or 'canceled'
+ */
+export const getWasteRequestByRequestCode = async (requestCode) => {
+  const query = query(
+    colRef,
+    where("request_code", "==", requestCode)
+  )
+  const querySnapshot = await getDocs(q)
+  if (querySnapshot.empty) {
+    throw new Error(`No waste request found with code ${requestCode}`)
+  }
+  const docSnap = querySnapshot.docs[0]
+  return { id: docSnap.id, ...docSnap.data() }
 }
