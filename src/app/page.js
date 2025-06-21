@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from "react";
 import LoginModal from './auth/login/LoginModal';
+import Navbar from './components/Navbar';
 
 function FAQAccordion() {
   const [open, setOpen] = useState(0);
@@ -171,7 +172,9 @@ function Modul3RAccordion() {
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
   return (
-    <main className="min-h-screen bg-[#FDFBEF] flex flex-col">
+    <>
+    <Navbar />
+      <main className="min-h-screen bg-[#FDFBEF] flex flex-col">
       {/* Landing Section: dua kolom */}
       <section className="flex w-full">
         {/* Kiri: Konten */}
@@ -286,7 +289,8 @@ export default function Home() {
         </section>
       </section>
       <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
-    </main>
+    </main></>
+
   );
 }
 
