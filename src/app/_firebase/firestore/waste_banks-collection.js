@@ -63,3 +63,12 @@ export const deleteWasteBank = async (wasteBankId) => {
   await deleteDoc(docRef)
   return { id: wasteBankId, deleted: true }
 }
+
+export const getAll = async () => {
+  const querySnapshot = await getDocs(colRef)
+  const results = querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }))
+  return results
+}
