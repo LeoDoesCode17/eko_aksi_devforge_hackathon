@@ -1,5 +1,4 @@
 'use client'
-import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import { useState } from "react";
 import Image from 'next/image';
@@ -9,8 +8,6 @@ import RegisterModal from '../auth/register/RegisterModal';
 export default function Navbar() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const { role, user } = useAuth()
-  const [open, setOpen] = useState(false);
 
   // Common navigation items
   const navItems = [
@@ -20,10 +17,6 @@ export default function Navbar() {
     { label: "FAQ", href: "/faq" },
     { label: "Kontak", href: "/contact" },
   ];
-
-  if (role !== "guest") {
-    navItems.push({ label: "Riwayat Transaksi", href: `/${role}/riwayat-transaksi` })
-  }
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white text-black px-20 py-3 flex justify-between items-center shadow-md">
@@ -49,42 +42,14 @@ export default function Navbar() {
 
       {/* Right: Guest or Authenticated */}
       <div className="relative">
-        {role === "guest" ? (
-          <div className="space-x-4">
-            <button onClick={() => setShowLogin(true)} className="bg-[#D6ED9F] text-sm font-semibold text-black px-4 py-2 rounded hover:bg-[#33562F] transition">
-              Login
-            </button>
-            <button onClick={() => setShowRegister(true)} className="bg-[#3A6238] text-sm font-semibold text-white px-4 py-2 rounded hover:bg-[#33562F] transition">
-              Daftar
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button
-              onClick={() => setOpen(!open)}
-              className="hover:text-gray-300 focus:outline-none"
-            >
-              {user?.email || "Profile"} ⌄
-            </button>
-            {open && (
-              <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md z-50">
-                <Link
-                  href="/profile"
-                  className="block px-4 py-2 hover:bg-gray-100"
-                >
-                  My Profile
-                </Link>
-                <Link
-                  href="/settings"
-                  className="block px-4 py-2 hover:bg-gray-100"
-                >
-                  Settings
-                </Link>
-                {/* Optional: logout link or function */}
-              </div>
-            )}
-          </div>
-        )}
+        <div className="space-x-4">
+          <button onClick={() => setShowLogin(true)} className="bg-[#D6ED9F] text-sm font-semibold text-black px-4 py-2 rounded hover:bg-[#33562F] transition">
+            Login
+          </button>
+          <button onClick={() => setShowRegister(true)} className="bg-[#3A6238] text-sm font-semibold text-white px-4 py-2 rounded hover:bg-[#33562F] transition">
+            Daftar
+          </button>
+        </div>
       </div>
       <RegisterModal open={showRegister} onClose={() => setShowRegister(false)} />
       <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
