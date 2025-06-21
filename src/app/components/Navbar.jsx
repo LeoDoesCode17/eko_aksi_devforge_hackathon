@@ -3,8 +3,12 @@ import { useAuth } from "../context/AuthContext";
 import Link from "next/link";
 import { useState } from "react";
 import Image from 'next/image';
+import LoginModal from '../auth/login/LoginModal';
+import RegisterModal from '../auth/register/RegisterModal';
 
 export default function Navbar() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
   const { role, user } = useAuth()
   const [open, setOpen] = useState(false);
 
@@ -47,18 +51,12 @@ export default function Navbar() {
       <div className="relative">
         {role === "guest" ? (
           <div className="space-x-4">
-            <Link
-              href="/auth/login"
-              className="bg-[#D6ED9F] text-sm font-semibold text-black px-4 py-2 rounded hover:bg-[#33562F] transition"
-            >
-              Masuk
-            </Link>
-            <Link
-              href="/auth/register"
-              className="bg-[#3A6238] text-sm font-semibold text-white px-4 py-2 rounded hover:bg-[#33562F] transition"
-            >
+            <button onClick={() => setShowLogin(true)} className="bg-[#D6ED9F] text-sm font-semibold text-black px-4 py-2 rounded hover:bg-[#33562F] transition">
+              Login
+            </button>
+            <button onClick={() => setShowRegister(true)} className="bg-[#3A6238] text-sm font-semibold text-white px-4 py-2 rounded hover:bg-[#33562F] transition">
               Daftar
-            </Link>
+            </button>
           </div>
         ) : (
           <div>
@@ -88,6 +86,8 @@ export default function Navbar() {
           </div>
         )}
       </div>
+      <RegisterModal open={showRegister} onClose={() => setShowRegister(false)} />
+      <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
     </nav>
   )
 
