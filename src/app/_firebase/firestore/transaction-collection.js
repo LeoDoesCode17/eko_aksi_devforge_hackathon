@@ -1,7 +1,7 @@
-import { collection, doc, addDoc, getDoc, deleteDoc, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { collection, doc, addDoc, getDoc, deleteDoc, serverTimestamp, updateDoc, getDocs } from 'firebase/firestore'
 import { db } from "../firebaseClient";
 import { get as getUserById } from './users-collection';
-import { get as  getWasteRequestById} from './waste_requests-collection';
+import { get as getWasteRequestById, getWasteRequestsByStatus } from './waste_requests-collection';
 /*
 Transaction
 - id (PK)
@@ -59,5 +59,42 @@ export const deleteTransaction = async (transactionId) => {
   await get(transactionId) // Ensure the transaction exists
   const docRef = doc(colRef, transactionId)
   await deleteDoc(docRef)
-  return { id: transactionId , deleted : true}
+  return { id: transactionId, deleted: true }
 }
+
+/**
+ * Gets all transaction documents associated with a given user.
+ *
+ * @param {string} userId - ID of the user.
+ * @returns {Promise<Array<Object>>} - Array of transaction objects.
+ */
+export const getAllTransactionByUser = async (userId) => {
+  await getUserById(userId);
+  const allStatuses = ['pending', 'used', 'canceled']; // Or just use a more generic query
+
+  // get wasteRequest by user id and status
+  let allRequests = [];
+  for (const status of allStatuses) {
+    const requests = await getWasteRequestsByStatus(userId, status);
+    allRequests = allRequests.concat(requests);
+  }
+  const requestIds = allRequests.map(req => req.id);
+  if (requestIds.length === 0) return [];
+
+  // chunked the requestIds by 10 
+  const chunked = [];
+  for (let i = 0; i < requestIds.length; i += 10) {
+    chunked.push(requestIds.slice(i, i + 10)); // Firestore doesn't support `in` with more than 10 items
+  }
+
+  // get all transactions using chunked of requestIds
+  let transactions = [];
+  for (const chunk of chunked) {
+    const q = query(colRef, where("request_id", "in", chunk));
+    const snapshot = await getDocs(q);
+    const result = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    transactions = transactions.concat(result);
+  } 
+  return transactions;
+};
+
