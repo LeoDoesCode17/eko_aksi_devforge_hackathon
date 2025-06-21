@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from "react";
+import LoginModal from './auth/login/LoginModal';
 
 function FAQAccordion() {
   const [open, setOpen] = useState(0);
@@ -168,6 +169,7 @@ function Modul3RAccordion() {
 }
 
 export default function Home() {
+  const [showLogin, setShowLogin] = useState(false);
   return (
     <main className="min-h-screen bg-[#FDFBEF] flex flex-col">
       {/* Landing Section: dua kolom */}
@@ -187,12 +189,9 @@ export default function Home() {
           <p className="text-gray-700 mb-8">
             EkoAksi hadir sebagai platform interaktif untuk membangun kesadaran dan mengajak kamu terlibat langsung dalam gaya hidup ramah lingkungan
           </p>
-          <Link
-            href="/auth/login"
-            className="hover:bg-green-800 text-white px-4 py-2 rounded-lg font-semibold transition mb-10 inline-flex items-center self-start" style={{ backgroundColor: "#005A23" }}
-          >
+          <button onClick={() => setShowLogin(true)} className="hover:bg-green-800 text-white px-4 py-2 rounded-lg font-semibold transition mb-10 inline-flex items-center self-start" style={{ backgroundColor: "#005A23" }}>
             Mulai Sekarang &rarr;
-          </Link>
+          </button>
           <div className="flex items-center gap-3">
             {/* Foto profil */}
             <div className="flex -space-x-2">
@@ -286,6 +285,7 @@ export default function Home() {
           </div>
         </section>
       </section>
+      <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
     </main>
   );
 }
